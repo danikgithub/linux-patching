@@ -1,0 +1,8 @@
+---
+- name: running yum update with limted repos
+  yum:
+    disablerepo: '*'
+    #this needs to be updated to include a list of rhel repos (no wildcard!)
+    enablerepo: 'rhel-7-server*'
+    name: '*'
+    state: latest

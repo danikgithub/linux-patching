@@ -1,0 +1,16 @@
+- name: "Add server to in-memory inventory"
+  hosts: localhost
+  gather_facts: False
+  tasks:
+    - name: "Add server to in-memory inventory group"
+      add_host:
+        name: "{{ target_host }}"
+        groups: patch_all
+
+- hosts: patch_all
+  gather_facts: false
+  become: true
+  tasks:
+    - name: yum update
+      include_role:
+        name: patch-automation-yum-update

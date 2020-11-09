@@ -1,0 +1,21 @@
+---
+# tasks file for patch-automation
+# import tasks file to initiate the patching
+- name: Defining patching Type
+  debug:
+    msg: "patching_type: {{ patching_type }}"
+
+#- include_role: vsphere-snapshot
+
+
+- name: Importing system patching via yum update
+  include_tasks: yum_updatehost_with_reboot.yml
+  when: patching_type == "SYSTEM_PATCHING"
+
+- name: Importing system reboot
+  include_tasks: yum_updatehost_NO_reboot.yml
+  when: patching_type == "NOREBOOT"
+
+
+
+

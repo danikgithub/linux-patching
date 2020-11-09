@@ -1,0 +1,13 @@
+---
+- name: "yum update hosts with noreboot using ansible-linux-yum-update role"
+  hosts: patch_all
+  gather_facts: True
+  remote_user: toweragent
+  become: yes
+  vars:
+    patching_type: "NOREBOOT"
+
+  roles:
+    - ansible-linux-yum-update
+
+
