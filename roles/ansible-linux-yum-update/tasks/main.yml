@@ -8,11 +8,11 @@
 #- include_role: vsphere-snapshot
 
 
-- name: Importing system patching via yum update
+- name: Importing system patching via yum update with REBOOT
   include_tasks: yum_updatehost_with_reboot.yml
-  when: patching_type == "SYSTEM_PATCHING"
+  when: patching_type == "SYSTEM_REBOOT"
 
-- name: Importing system reboot
+- name: Importing system patching via yum update with NOREBOOT
   include_tasks: yum_updatehost_NO_reboot.yml
   when: patching_type == "NOREBOOT"
 

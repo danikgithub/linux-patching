@@ -1,0 +1,11 @@
+---
+- name: "yum update hosts with NOREBOOT using ansible-linux-yum-update role"
+  hosts: dev
+  gather_facts: True
+  remote_user: daniel
+  become: yes
+  vars:
+    patching_type: "NOREBOOT"
+
+  roles:
+    - ansible-linux-yum-update

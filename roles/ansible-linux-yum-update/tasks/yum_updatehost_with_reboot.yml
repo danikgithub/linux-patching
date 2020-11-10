@@ -2,7 +2,7 @@
 - name: "set patching time"
   set_fact:
     timestamp: "{{ ansible_date_time.iso8601_basic_short }}"
-  delegate_to: xlab2359.aetnat.com
+  delegate_to: localhost
 
 # update systems using yum  and compare running kernel version
 - name: "Install Latest yum packages"
@@ -21,7 +21,7 @@
       line: "HOSTNAME: {{ inventory_hostname }} | yum update failed, PLEASE CHECK THE SERVER"
       dest: "{{ local_dir }}/update.{{ inventory_hostname }}.yum.{{ timestamp }}"
       create: yes
-    delegate_to: xlab2359.aetnat.com
+    delegate_to: localhost
     become: yes
 
   - name: "Yum failed"
@@ -35,7 +35,7 @@
       line: "HOSTNAME: {{ inventory_hostname }} |  Nothing to update."
       dest: "{{ local_dir }}/update.{{ inventory_hostname }}.yum.{{ timestamp }}"
       create: yes
-    delegate_to: xlab2359.aetnat.com
+    delegate_to: localhost
     become: yes
 
 
@@ -51,7 +51,7 @@
       line: "HOSTNAME: {{ inventory_hostname }} | yum update succeeded."
       dest: "{{ local_dir }}/update.{{ inventory_hostname }}.yum.{{ timestamp }}"
       create: yes
-    delegate_to: xlab2359.aetnat.com
+    delegate_to: localhost
     become: yes
 
   - name: "Update is done "
@@ -65,6 +65,14 @@
     args:
       warn: false
     register: LAST_KERNEL
+
+## check system pre reboot uptime
+  - name: Check uptime before system reboot
+    shell: uptime
+    register: UPTIME_POST_REBOOT
+
+  - debug: msg={{UPTIME_POST_REBOOT.stdout}}
+
 
   - name: get current time before reboot
     shell: /bin/date +%s
@@ -90,7 +98,7 @@
     shell: (( `date +%s` - `awk -F . '{print $1}' /proc/uptime` > {{ before_reboot.stdout }} ))
 
 ## check system post reboot uptime
-  - name: Check the uptime after reboot
+  - name: Check uptime after system reboot
     shell: uptime
     register: UPTIME_POST_REBOOT
 

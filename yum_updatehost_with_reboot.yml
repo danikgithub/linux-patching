@@ -1,0 +1,11 @@
+---
+- name: "yum update hosts with REBOOT using ansible-linux-yum-update role"
+  hosts: dev
+  gather_facts: True
+  remote_user: daniel
+  become: yes
+  vars:
+    patching_type: "SYSTEM_REBOOT"
+
+  roles:
+    - ansible-linux-yum-update

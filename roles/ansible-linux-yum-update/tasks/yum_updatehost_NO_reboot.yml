@@ -2,14 +2,14 @@
 - name: "set patching time"
   set_fact:
     timestamp: "{{ ansible_date_time.iso8601_basic_short }}"
-  delegate_to: xlab2359.aetnat.com
+  delegate_to: localhost
 
 
 # update systems using yum  and compare running kernel version
 - name: "Install Latest yum packages"
   yum:
-    name={{ yum_name }}
-    state={{ yum_state }}
+    name: "*"
+    state: latest
 #    disablerepo={{ yum_disablerepo }}
 #    enablerepo={{ yum_enablerepo }}
 #    exclude={{ yum_exclude }}
@@ -22,7 +22,7 @@
       line: "HOSTNAME: {{ inventory_hostname }} | yum update failed, PLEASE CHECK THE SERVER"
       dest: "{{ local_dir }}/update.{{ inventory_hostname }}.yum.{{ timestamp }}"
       create: yes
-    delegate_to: xlab2359.aetnat.com
+    delegate_to: localhost
     become: yes
 
   - name: "Yum failed"
@@ -36,7 +36,7 @@
       line: "HOSTNAME: {{ inventory_hostname }} |  Nothing to update."
       dest: "{{ local_dir }}/update.{{ inventory_hostname }}.yum.{{ timestamp }}"
       create: yes
-    delegate_to: xlab2359.aetnat.com
+    delegate_to: localhost
     become: yes
 
 
@@ -52,7 +52,7 @@
       line: "HOSTNAME: {{ inventory_hostname }} | yum update succeeded."
       dest: "{{ local_dir }}/update.{{ inventory_hostname }}.yum.{{ timestamp }}"
       create: yes
-    delegate_to: xlab2359.aetnat.com
+    delegate_to: localhost
     become: yes
 
   - name: "Update is done "

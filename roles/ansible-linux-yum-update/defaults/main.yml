@@ -2,5 +2,5 @@
 # defaults file for patch-automation
 local_dir: "/tmp/ansible/sys-patching"
 
-patching_type: SYSTEM_PATCHING
-patching_type: NOREBOOT 
+patching_type: SYSTEM_REBOOT
+#patching_type: NOREBOOT 
